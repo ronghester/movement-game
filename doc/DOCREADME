@@ -1,4 +1,4 @@
 Le fichier Makefile sert au développement d'un fichier "doc.tex"
 
-Une fois que le document est finalisé, déplacer dans compterendus/, 
-et les illustrations éventuelles dans comptenrendus/img/.
+Une fois que le document est fini, compiler en PDF et déplacer
+dans compterendus/ .
