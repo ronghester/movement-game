@@ -5,6 +5,13 @@
 
 #include <QDebug>
 #include "gameboard.hpp"
+/* pseudo code
+Tant que balle dans l'écran:
+    Screen.update();
+    wait(delay);
+    calcul_coordonnées();
+Fin;
+*/
 
 int
 main(int argc, char *argv[])
