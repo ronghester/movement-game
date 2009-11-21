@@ -15,12 +15,6 @@ main(int argc, char *argv[])
 	
 	QPushButton *button = new QPushButton("Quit");
 	button->connect(button, SIGNAL(clicked()), qApp, SLOT(quit()));
-	
-	GameBoard *game = new GameBoard(window);
-	Ball *ball = new Ball(game);
-	layout->addWidget(button);
-	layout->addWidget(game);
-	
 	window->setLayout(layout);
 	
 	window->show();

@@ -2,11 +2,12 @@
 #define GAMEBOARD_H
 
 #include <QWidget>
+#include <QGraphicsScene>
 
-class GameBoard : public QWidget
+class GameBoard : public QGraphicsScene
 {
 public:
-	GameBoard(QWidget *parent = 0);
+	GameBoard(const QRectF &rect, QWidget *parent = 0);
 private:
 	void paintEvent(QPaintEvent *even);
 	void paintBlock(QPainter &painter);
