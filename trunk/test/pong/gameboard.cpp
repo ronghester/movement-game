@@ -1,20 +1,16 @@
-#include <QRect>
+#include <QRectF>
 #include <QPainter>
 #include "gameboard.hpp"
 
-GameBoard::GameBoard(QWidget *parent)
-	:QWidget(parent)
+GameBoard::GameBoard(const QRectF &rect, QWidget *parent)
 {
-	setFixedSize(600, 300);
-	setPalette(QColor(255, 255, 130));
-	setAutoFillBackground(true);
+	
 }
 
 void GameBoard::paintEvent(QPaintEvent *)
 {
-	QPainter painter(this);
-	paintBlock(painter);
-	}
+	
+}
 
 void GameBoard::paintBlock(QPainter &painter)
 {
@@ -28,8 +24,6 @@ void GameBoard::paintBlock(QPainter &painter)
 void GameBoard::paintBall(QPainter &painter)
 {
 	painter.setPen(Qt::blue);
-	painter.drawEllipse(QPoint(rect().width()/2, 
-				   rect().height()/2)
-			    ,20, 20);
+	
 	
 }
