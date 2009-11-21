@@ -9,12 +9,13 @@ Ball::Ball(QWidget *parent)
 
 void Ball::paintEvent (QPaintEvent *event)
 {
-	QPainter *painter;
+	QPainter *painter = new QPainter(this);
+	
 	painter->setPen(Qt::red);
-	painter->drawEllipse(parent.rect(),100, 100);
+	painter->drawEllipse(20,20,100, 100);	
 }
 
-void Ball::inScreen()
+bool Ball::inScreen()
 {
 	return true;
 }

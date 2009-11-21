@@ -3,11 +3,11 @@
 class Ball : public QWidget
 {
 public:
-	Ball(Qwidget parent);
+	Ball(QWidget *parent);
 private:
-	int x, int y;
+	int x, y;
 	
 	void paintEvent(QPaintEvent *event);
 	bool inScreen();
-}
+};
 	
