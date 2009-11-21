@@ -1,3 +1,6 @@
+#ifndef BALL_H
+#define BALL_H
+
 #include <QWidget>
 
 class Ball : public QWidget
@@ -11,3 +14,4 @@ private:
 	bool inScreen();
 };
 	
+#endif

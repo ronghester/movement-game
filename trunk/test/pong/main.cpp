@@ -9,7 +9,7 @@
 int
 main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+  	QApplication app(argc, argv);
 	QWidget *window = new QWidget();
 	QVBoxLayout *layout = new QVBoxLayout();
 // TODO: changer les wigets...	
