@@ -12,7 +12,7 @@
 #include "MenuSessions.h"
 #include "Utilisateur.h"
 
-class MenuUtilisateur : public QWidget
+class MenuUtilisateur : QWidget
 {
 	Q_OBJECT
 	
@@ -31,7 +31,7 @@ public:
 
 // Déclaration des slots
 public slots:
-	void retour_menu_sessions();
+	void a();
 };
 
 #endif

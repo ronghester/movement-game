@@ -1,5 +1,7 @@
 #include "MenuUtilisateur.h"
 
+#include <iostream>
+
 MenuUtilisateur::MenuUtilisateur(QWidget *parent, Utilisateur joueurA) : QWidget(parent), joueur(joueurA)
 {
 	// On charge la configuration de l'utilisateur.
@@ -14,7 +16,7 @@ MenuUtilisateur::MenuUtilisateur(QWidget *parent, Utilisateur joueurA) : QWidget
 	quitter = new QPushButton("Quitter", this);
 	
 	// Connection des signaux.
-	connect(retourMenu, SIGNAL(clicked()), this, SLOT(retour_menu_sessions()));
+	connect(retourMenu, SIGNAL(clicked()), this, SLOT(a()));
 	connect(quitter, SIGNAL(clicked()), qApp, SLOT(quit()));
 	
 	// Création et remplissage du layout.
@@ -28,6 +30,7 @@ MenuUtilisateur::MenuUtilisateur(QWidget *parent, Utilisateur joueurA) : QWidget
 }
 
 //Slots
-void MenuUtilisateur::retour_menu_sessions()
+void MenuUtilisateur::a()
 {
+	std::cout << "Debug\n";
 }

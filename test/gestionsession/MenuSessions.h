@@ -1,7 +1,6 @@
 #ifndef MENUSESSIONS_H
 #define MENUSESSIONS_H
 
-#include <iostream>
 #include <QtGui>
 #include <QWidget>
 #include <QPushButton>
@@ -21,10 +20,7 @@ protected:
 	int hauteurFenetre;
 	// Widgets d'affichage
 	QWidget *window;
-	QPushButton *bouton1;
-	QPushButton *bouton2;
-	QPushButton *bouton3;
-	QPushButton *bouton4;
+	QPushButton *boutons[4];
 	QPushButton *quit;
 	QVBoxLayout *layoutPrincipal;
 public:
