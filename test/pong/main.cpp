@@ -3,15 +3,8 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include <QDebug>
 #include "gameboard.hpp"
-/* pseudo code
-Tant que balle dans l'écran:
-    Screen.update();
-    wait(delay);
-    calcul_coordonnées();
-Fin;
-*/
+#include "ball.hpp"
 
 int
 main(int argc, char *argv[])
@@ -23,8 +16,8 @@ main(int argc, char *argv[])
 	QPushButton *button = new QPushButton("Quit");
 	button->connect(button, SIGNAL(clicked()), qApp, SLOT(quit()));
 	
-	GameBoard *game = new GameBoard();
-	
+	GameBoard *game = new GameBoard(window);
+	Ball *ball = new Ball(game);
 	layout->addWidget(button);
 	layout->addWidget(game);
 	

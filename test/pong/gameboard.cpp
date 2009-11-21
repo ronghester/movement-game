@@ -14,8 +14,6 @@ void GameBoard::paintEvent(QPaintEvent *)
 {
 	QPainter painter(this);
 	paintBlock(painter);
-	paintBall(painter);
-	
 	}
 
 void GameBoard::paintBlock(QPainter &painter)
