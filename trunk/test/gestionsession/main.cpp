@@ -1,13 +1,12 @@
 #include <QApplication>
-#include "menuSessions.h"
-#include "utilisateur.h"
+#include "MenuSessions.h"
 
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     
-    menuSessions Menu;
+    MenuSessions menu;
 
     return app.exec();
 }
