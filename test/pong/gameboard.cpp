@@ -4,7 +4,7 @@
 
 GameBoard::GameBoard(const QRectF &rect, QWidget *parent)
 {
-	
+        int i = 0;	
 }
 
 void GameBoard::paintEvent(QPaintEvent *)
