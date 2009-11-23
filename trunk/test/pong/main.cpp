@@ -3,9 +3,10 @@
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QGraphicsItem>
 #include <QPushButton>
-#include <QMenuBar>
+
+#include "player.hpp"
+
 int
 main(int argc, char *argv[])
 {
@@ -14,24 +15,27 @@ main(int argc, char *argv[])
 	window->setWindowTitle("Serious Game");
 	window->setFixedSize(640, 480);
 	
+	// Bouton d'arrêt
 	QPushButton *button = new QPushButton("Quit");
 	button->connect(button, SIGNAL(clicked()), app, SLOT(quit()));
 	
 	QVBoxLayout *layout = new QVBoxLayout(window);
 	layout->addWidget(button);
 	
+	// Canvas utilisé pour le jeu
 	QGraphicsScene *scene = new QGraphicsScene();
-	QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("This is it");
-	scene->addItem(text);
-	//text->setPos(10, 10);
-	QGraphicsRectItem *rect = new QGraphicsRectItem(-500, -10,20, 100);
-	rect->setBrush(QBrush(Qt::red));
+
+	// Un nouveau joueur Pong, i.e un rectangle
+	Player *p1 = new Player(-500, 0, 20, 100, QBrush(Qt::red));
+	Player *p2 = new Player(scene->width()-50, 0, 20, 100, QBrush(Qt::blue));
 	
-	scene->addItem(rect);
+      	scene->addItem(p1);
+	scene->addItem(p2);
 	
-	
+		
+	// Notre vue sur la scène
 	QGraphicsView *view = new QGraphicsView(scene, window);
-	view->setRenderHints(QPainter::Antialiasing);
+	
 	layout->addWidget(view);
 	
 	window->show();
