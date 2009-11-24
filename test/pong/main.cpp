@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QApplication>
 #include <QMainWindow>
 #include <QVBoxLayout>
@@ -43,6 +44,11 @@ main(int argc, char *argv[])
 	
 	// Trying to make p1 grab key events
 	scene->setFocusItem(p1);
+	
+	if (scene->focusItem()==p1){
+		std::cout<<"I've got the power.";
+	}
+	
 	
 	// Adding the button and the view.
 	layout->addWidget(button);
