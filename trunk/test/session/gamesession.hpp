@@ -21,6 +21,7 @@ public slots:
 private:
 	StartWindow *start;
 	ProfileWindow *profiles;
+	UserWindow *userwindow;
 };
 
 #endif
