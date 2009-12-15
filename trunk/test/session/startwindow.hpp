@@ -15,7 +15,11 @@ private:
 	QPushButton *select;
 	QPushButton *quit;
 	QVBoxLayout *vbox;
+signals:
+	void select_profile();
+	void send_user(QString user);
 public slots:
+	void list_users();
 	void new_user_profile();
 };
 
