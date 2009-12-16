@@ -6,14 +6,8 @@
 GameSession::GameSession() 
 {
 	start = new StartWindow();
-	profiles = new ProfileWindow();
 
 	center_widget(start);
-	center_widget(profiles);
-	connect(start, 
-		SIGNAL(select_profile()),
-		this, 
-		SLOT(show_profiles()));
 	
 	connect(start, 
 		SIGNAL(send_user(QString)),
@@ -41,18 +35,11 @@ GameSession::launch()
 	start->show();
 }
 
-void
-GameSession::show_profiles() 
+void 
+GameSession::show_user(QString username)
 {
 	this->start->hide();
-	this->profiles->show();
 
-}
-
-void GameSession::show_user(QString username)
-{
-	this->start->hide();
-	this->profiles->hide();
 	user = new User(username);
 	userwindow = new UserWindow(user);
 	center_widget(userwindow);	
