@@ -7,27 +7,24 @@
 #include <QLabel>
 #include <QBoxLayout>
 #include <QSettings>
+
 #include "utilisateur.hpp"
 
 class Statistiques : public QWidget
 {
-	public :
-		// Constructeur
-		Statistiques(Utilisateur *j, QWidget *parent=NULL);
-	private :
-		// Joueur
-		Utilisateur *joueur;
-	
-		// Widgets
-		QLabel *labelPseudo;
-		QLabel *labelProgression;
-		QLabel *labelCategories[4];
-		QLabel *labelTemps;
-		QLabel *labelParties;
-		QPushButton *boutonQuitter;
+public :
+	Statistiques(Utilisateur *j, QWidget *parent=0);
+private :
+	Utilisateur *user;
+  
+	QLabel *pseudo;
+	QLabel *progression;
+	QLabel *categories[4];
+	QLabel *playtime;
+	QLabel *parties;
+	QPushButton *quit;
 		
-		// Layout
-		QVBoxLayout *layoutPrincipal;
+	QVBoxLayout *layoutPrincipal;
 };
 
 #endif

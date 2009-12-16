@@ -7,6 +7,7 @@
 #include "startwindow.hpp"
 #include "profilewindow.hpp"
 #include "userwindow.hpp"
+#include "user.hpp"
 
 class GameSession : public QObject
 {
@@ -22,6 +23,7 @@ private:
 	StartWindow *start;
 	ProfileWindow *profiles;
 	UserWindow *userwindow;
+	User *user;
 };
 
 #endif

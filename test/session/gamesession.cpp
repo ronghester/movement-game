@@ -46,13 +46,15 @@ GameSession::show_profiles()
 {
 	this->start->hide();
 	this->profiles->show();
+
 }
 
 void GameSession::show_user(QString username)
 {
 	this->start->hide();
 	this->profiles->hide();
-	userwindow = new UserWindow(username);
+	user = new User(username);
+	userwindow = new UserWindow(user);
 	center_widget(userwindow);	
 	userwindow->show();
 }
