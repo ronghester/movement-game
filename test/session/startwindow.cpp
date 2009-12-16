@@ -43,14 +43,18 @@ StartWindow::new_user_profile()
 	} else {
 		this->show();
 	}
-	// TODO : record_new_user(username);
 }
 
 void 
 StartWindow::list_users()
 {
 	this->hide();
-	QDir *cur = new QDir();
+
+	// we're going to look up existing profiles in the users/ directory
+	QDir *cur = new QDir(QDir::currentPath()+"/users/");
+
+	// shows only files
+	cur->setFilter(QDir::Files);
 	bool ok;
 	QString username = QInputDialog::getItem(0, 
 				     "Profile selection",
