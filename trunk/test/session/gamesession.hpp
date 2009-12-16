@@ -5,7 +5,6 @@
 #include <QWidget>
 
 #include "startwindow.hpp"
-#include "profilewindow.hpp"
 #include "userwindow.hpp"
 #include "user.hpp"
 
@@ -17,11 +16,9 @@ public:
 	void launch();
 	void center_widget(QWidget *widget);
 public slots:
-	void show_profiles();
 	void show_user(QString username);
 private:
 	StartWindow *start;
-	ProfileWindow *profiles;
 	UserWindow *userwindow;
 	User *user;
 };
