@@ -1,13 +1,19 @@
 #include "userwindow.hpp"
 #include "user.hpp"
-
+#include "pong.hpp"
 
 #include <QApplication>
+#include <QGraphicsScene>
+
 #include <QString>
 #include <QDebug>
 #include <QPen>
 #include <QMessageBox>
-// TODO : move includes to header
+#include <QDir>
+#include <QInputDialog>
+
+/* TODO : cleanup headers */
+
 #include <QGraphicsItem>
 
 UserWindow::UserWindow(User *usr, QWidget *parent)
@@ -41,6 +47,7 @@ UserWindow::UserWindow(User *usr, QWidget *parent)
 	menubar->addWidget(multiplayer);
 	menubar->addWidget(quit);
 
+	connect(play, SIGNAL(clicked()), this, SLOT(show_games()));
 	connect(stats, SIGNAL(clicked()), this, SLOT(show_stats()));
 	connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
 
@@ -101,4 +108,29 @@ UserWindow::show_stats()
 	QMessageBox::information(0, "Your statistics",
 					   stats);
 
+}
+
+void
+UserWindow::show_games()
+{
+	this->hide();
+	
+	QDir *cur = new QDir(QDir::currentPath()+"/games/");
+
+	cur->setFilter(QDir::Files);
+	bool ok;
+	QString gamename = QInputDialog::getItem(0, 
+				     "Game selection",
+				     "Please pick a game",
+				     cur->entryList(),
+				     0,
+				     false,
+				     &ok);	
+
+	if(ok) {
+		Pong *g = new Pong();
+		emit(send_game(g));
+	} else {
+		this->show();
+	}
 }

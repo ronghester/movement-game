@@ -7,6 +7,7 @@
 #include "startwindow.hpp"
 #include "userwindow.hpp"
 #include "user.hpp"
+#include "gamewindow.hpp"
 
 class GameSession : public QObject
 {
@@ -17,6 +18,7 @@ public:
 	void center_widget(QWidget *widget);
 public slots:
 	void show_user(QString username);
+	void start_game(QGraphicsScene *scn);
 private:
 	StartWindow *start;
 	UserWindow *userwindow;
