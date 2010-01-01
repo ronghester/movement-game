@@ -42,6 +42,22 @@ GameSession::show_user(QString username)
 
 	user = new User(username);
 	userwindow = new UserWindow(user);
+	connect(userwindow,
+		SIGNAL(send_game(QGraphicsScene*)),
+		this,
+		SLOT(start_game(QGraphicsScene*)));
+
 	center_widget(userwindow);	
 	userwindow->show();
+}
+
+void
+GameSession::start_game(QGraphicsScene *scn)
+{
+	userwindow->hide();
+
+	GameWindow *gamewindow = new GameWindow(scn);
+
+	gamewindow->show();
+	/* constructor ? */
 }
