@@ -28,32 +28,40 @@ Pong::Pong()
 	this->ball->setBrush(QBrush(Qt::black));
 	
 	this->dx = -1;
-	this->dy = 0;
+	this->dy = -1;
 
 	QTimeLine *timer = new QTimeLine(5000);
 	timer->setFrameRange(0, 100);
-	connect(timer,
-		SIGNAL(valueChanged(int)),
-		this,
-		SLOT(value_changed(int)));
 	this->addItem(ball);
 	this->addItem(p1);
 	this->addItem(p2);
+	timer->setLoopCount(10000);
 	timer->start();
+	connect(timer,
+		SIGNAL(frameChanged(int)),
+		this,
+		SLOT(value_changed(int)));
 }
+
 void
 Pong::value_changed(int)
 {
-	if (timer->currentValue()==timer->duration()) {
-		timer->setLoopCount(1);
+        /* do we collide ? */
+	if (ball->x()>=PADDLE*2 && ball->x()<=WIDTH-PADDLE*2) {
+		if (ball->collidesWithItem(p1) || ball->collidesWithItem(p2)) {
+			dx = -dx;
+		} else if (ball->y()<=0 || ball->y()>=HEIGHT-PADDLE) {
+			dy = -dy;
+		}
+		this->ball->moveBy(PADDLE*dx*0.005, PADDLE*dy*0.005);
 	}
-	this->ball->moveBy(PADDLE*dx, 0*dy);
 }
 
 void
 Pong::keyPressEvent(QKeyEvent *e)
 {
-	static int x;
+	int x = 0;
+	int x2 = 0;
 	switch(e->key()) {
 	case (Qt::Key_Up):
 		x = -1;
@@ -61,8 +69,15 @@ Pong::keyPressEvent(QKeyEvent *e)
 	case (Qt::Key_Down):
 		x = 1;
 		break;
+	case (Qt::Key_A):
+		x2 = -1;
+		break;
+	case (Qt::Key_Q):
+		x2 = 1;
+		break;
 	default:
 		x = 0;
+		x2 = 0;
 		break;
 	}
 
@@ -70,4 +85,5 @@ Pong::keyPressEvent(QKeyEvent *e)
 	/*	p1->y() + PADDLE*3 <= HEIGHT) */
 	/* TODO : edge detection */
 	this->p1->moveBy(0, PADDLE*x);
+	this->p2->moveBy(0, PADDLE*x2);
 }
