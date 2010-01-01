@@ -2,22 +2,20 @@
 #define GAMEWINDOW_H
 
 #include <QWidget>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QGraphicsView>
-
-#include "gamesession.hpp"
 
 class GameWindow : public QWidget
 {
+Q_OBJECT
 public:
-	GameWindow(QWidget *parent = 0);
+	GameWindow(QGraphicsScene *scene, QWidget *parent = 0);
 private:
-	QPushButton *quitbutton;
-	QVBoxLayout *layout;
-	GameSession *session;
 	QGraphicsView *view;
-}
-;
+	QPushButton *quit;
+	QVBoxLayout *layout;
+};
 
 #endif
