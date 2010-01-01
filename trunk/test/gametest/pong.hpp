@@ -7,6 +7,7 @@
 
 class Pong : public QGraphicsScene
 {
+Q_OBJECT
 public:
 	Pong();
 protected:
