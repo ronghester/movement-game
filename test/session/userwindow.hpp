@@ -15,9 +15,13 @@ class UserWindow : public QWidget
 {
 Q_OBJECT
 public:
-	UserWindow(User *user, QWidget *parent = 0);
-	QGraphicsItemGroup *draw_diagram(User *user);
+	UserWindow(User *usr, QWidget *parent = 0);
+	QGraphicsItemGroup *draw_diagram();
+public slots:
+	void show_stats();
 private:
+	User *user;
+
 	QLabel *welcome;
 
 	QPushButton *play;

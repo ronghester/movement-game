@@ -1,16 +1,19 @@
 #include "userwindow.hpp"
 #include "user.hpp"
 
+
+#include <QApplication>
 #include <QString>
 #include <QDebug>
 #include <QPen>
-
+#include <QMessageBox>
 // TODO : move includes to header
 #include <QGraphicsItem>
 
-UserWindow::UserWindow(User *user, QWidget *parent)
+UserWindow::UserWindow(User *usr, QWidget *parent)
 	:QWidget(parent)
 {
+	user = usr;
 	this->setWindowTitle("Your control panel");
 	QString username = user->get_name();
 
@@ -25,7 +28,10 @@ UserWindow::UserWindow(User *user, QWidget *parent)
 	diagram = new QGraphicsScene(0, 0, 500, 400);
 	view = new QGraphicsView(diagram);
 
-	diagram->addItem(draw_diagram(user));
+	// antialiasing
+	view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+	diagram->addItem(draw_diagram());
 
 	menubar = new QHBoxLayout();
 	layout = new QVBoxLayout(this);
@@ -35,6 +41,9 @@ UserWindow::UserWindow(User *user, QWidget *parent)
 	menubar->addWidget(multiplayer);
 	menubar->addWidget(quit);
 
+	connect(stats, SIGNAL(clicked()), this, SLOT(show_stats()));
+	connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+
 	layout->addWidget(welcome);
 	layout->addLayout(menubar);
 	layout->addWidget(view);
@@ -42,7 +51,7 @@ UserWindow::UserWindow(User *user, QWidget *parent)
 }
 
 QGraphicsItemGroup *
-UserWindow::draw_diagram(User *user)
+UserWindow::draw_diagram()
 {
 	QGraphicsItemGroup *group = new QGraphicsItemGroup();
 
@@ -53,7 +62,8 @@ UserWindow::draw_diagram(User *user)
 	QGraphicsLineItem *y = new QGraphicsLineItem(0, diagramHeight, diagramWidth*2, diagramHeight);
 
 	QGraphicsLineItem *l1, *l2, *l3, *l4;
-
+	QPen pen(Qt::red, 2);
+	
 	int cat1 = user->get_property("category1");
 	int cat2 = user->get_property("category2");
 	int cat3 = user->get_property("category3");
@@ -64,39 +74,31 @@ UserWindow::draw_diagram(User *user)
 	l3 = new QGraphicsLineItem(diagramWidth, diagramHeight*(1+0.1*cat3), diagramWidth*(1-0.1*cat4), diagramHeight);
 	l4 = new QGraphicsLineItem(diagramWidth*(1-0.1*cat4), diagramHeight, diagramWidth, diagramHeight*(1-0.1*cat1));
 
+	l1->setPen(pen); l2->setPen(pen); l3->setPen(pen); l4->setPen(pen);
+
 	group->addToGroup(l1);
 	group->addToGroup(l2);
 	group->addToGroup(l3);
 	group->addToGroup(l4);
-	// for (int x = 1; x<5; ++x) {
-	// 	QGraphicsLineItem *line = new QGraphicsLineItem();
-	// 	QString str;
-	// 	str.setNum(x);
 
-	// 	int value1 = user->get_property("category"+str);    // get score of cat(n)
-	// 	int value2 = user->get_property("category"+str.setNum(x+1));
-	// 	if (x<4) {
-	// 		value2 = user->get_property("category"+str);
-	// 	} else {
-	// 		value2 = user->get_property("category1");
-	// 	}
-		
-	// 	if (x==1) {
-	// 		qDebug("Are we in ?");
-	// 		line->setLine(diagramWidth, diagramHeight*(1-value1), diagramHeight, diagramWidth*(1+value2));
-	// 	} else if (x==2) {
-	// 		line->setLine(diagramWidth*(1+value1), diagramHeight, diagramHeight*(1+value2), diagramWidth);
-	// 	} else if (x==3) {
-	// 		line->setLine(diagramWidth, diagramHeight*(1+value1), diagramWidth*(1-value2), diagramHeight);
-	// 	} else if (x==4) {
-	// 		line->setLine(diagramWidth*(1-value1), diagramHeight, diagramWidth, diagramHeight*(1-value2));
-	// 	}
- 
-	// 	group->addToGroup(line);
-	// }
-	
 	group->addToGroup(x);
 	group->addToGroup(y);
 
 	return group;
+}
+
+void
+UserWindow::show_stats()
+{
+	QString stats = "<b>Games :</b> " + QString::number(user->get_property("games"))+
+		"<br><b>Play time :</b> " + QString::number(user->get_property("playtime"));
+	
+	for (int i = 1; i<5; ++i) {
+		QString cat = "<br><b>Category " + QString::number(i) + "</b>: ";
+		cat+= QString::number(user->get_property("category" + QString::number(i))*10) + "%";
+		stats += cat;
+	}
+	QMessageBox::information(0, "Your statistics",
+					   stats);
+
 }
