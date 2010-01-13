@@ -20,15 +20,15 @@ UserWindow::UserWindow(User *usr, QWidget *parent)
 	:QWidget(parent)
 {
 	user = usr;
-	this->setWindowTitle("Your control panel");
+	this->setWindowTitle(tr("Your control panel"));
 	QString username = user->get_name();
 
-	welcome = new QLabel("Welcome <b>"+ username +"</b>");
+	welcome = new QLabel(tr("Welcome") +" <b>"+ username +"</b>");
 
-	play = new QPushButton("Play");
-	stats = new QPushButton("Stats");
-	multiplayer = new QPushButton("Multiplayer");
-	quit = new QPushButton("Quit");
+	play = new QPushButton(tr("Play"));
+	stats = new QPushButton(tr("Stats"));
+	multiplayer = new QPushButton(tr("Multiplayer"));
+	quit = new QPushButton(tr("Quit"));
 
 	// TODO : adapt size to screen size
 	diagram = new QGraphicsScene(0, 0, 500, 400);
@@ -97,15 +97,15 @@ UserWindow::draw_diagram()
 void
 UserWindow::show_stats()
 {
-	QString stats = "<b>Games :</b> " + QString::number(user->get_property("games"))+
-		"<br><b>Play time :</b> " + QString::number(user->get_property("playtime"));
+	QString stats = "<b>" + tr("Games") + " :</b> " + QString::number(user->get_property("games"))+
+		"<br><b>" + tr("Play time") + " :</b> " + QString::number(user->get_property("playtime"));
 	
 	for (int i = 1; i<5; ++i) {
-		QString cat = "<br><b>Category " + QString::number(i) + "</b>: ";
+		QString cat = "<br><b>" +tr("Category") + " " + QString::number(i) + "</b>: ";
 		cat+= QString::number(user->get_property("category" + QString::number(i))*10) + "%";
 		stats += cat;
 	}
-	QMessageBox::information(0, "Your statistics",
+	QMessageBox::information(0, tr("Your statistics"),
 					   stats);
 
 }
@@ -120,13 +120,13 @@ UserWindow::show_games()
 	cur->setFilter(QDir::Files);
 	bool ok;
 	QString gamename = QInputDialog::getItem(0, 
-				     "Game selection",
-				     "Please pick a game",
-				     cur->entryList(),
-				     0,
-				     false,
-				     &ok);	
-
+						 tr("Game selection"),
+						 tr("Please pick a game"),
+						 cur->entryList(),
+						 0,
+						 false,
+						 &ok);	
+	
 	if(ok) {
 		Pong *g = new Pong();
 		emit(send_game(g));
