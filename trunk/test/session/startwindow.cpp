@@ -12,9 +12,9 @@ StartWindow::StartWindow(QWidget *parent)
 {
 	this->setWindowTitle("Serious Game");
 
-	create = new QPushButton("Create profile");
-	select = new QPushButton("Select profile");
-	quit = new QPushButton("Quit");
+	create = new QPushButton(tr("Create profile"));
+	select = new QPushButton(tr("Select profile"));
+	quit = new QPushButton(tr("Quit"));
 
 	// layout
 	vbox = new QVBoxLayout(this);
@@ -34,10 +34,10 @@ StartWindow::new_user_profile()
 {
 	this->hide();
 	bool response;
-	QString username = QInputDialog::getText(0, "New profile",
-					     "Please enter a name : ", 
-					     QLineEdit::Normal,
-		  			     "Votre nom", &response); 
+	QString username = QInputDialog::getText(0, tr("New profile"),
+						 tr("Please enter a name : "), 
+						 QLineEdit::Normal,
+						 tr("Your name"), &response); 
 	if (response) {
 		emit(send_user(username));
 	} else {
@@ -57,13 +57,13 @@ StartWindow::list_users()
 	cur->setFilter(QDir::Files);
 	bool ok;
 	QString username = QInputDialog::getItem(0, 
-				     "Profile selection",
-				     "Please pick a profile",
-				     cur->entryList(),
-				     0,
-				     false,
-				     &ok);	
-
+						 tr("Profile selection"),
+						 tr("Please pick a profile"),
+						 cur->entryList(),
+						 0,
+						 false,
+						 &ok);	
+	
 	if(ok) {
 		emit(send_user(username));
 	} else {
