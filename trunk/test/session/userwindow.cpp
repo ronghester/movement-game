@@ -116,23 +116,9 @@ void
 UserWindow::show_games()
 {
 	this->hide();
-	QDir *cur = new QDir(QDir::currentPath()+"/games/");
 
-	foreach (QString filename, cur->entryList(QStringList("*.so"), QDir::Files)) {
-		QPluginLoader loader(cur->absoluteFilePath(filename));
-		QObject *plugin = loader.instance();
-		if(plugin) {
-			GameInterface *test = qobject_cast<GameInterface *>(plugin);
-			if(test) {
-				qDebug()<<"Successfully loaded game : " + filename;
-				QStringList str = test->plugin_info();
-				for(int i=0; i<str.size(); ++i) {
-					qDebug()<<str.at(i);
-				}
-			}
-		}
-		
-	}
+	// game selection dialog
+
 	QWidget *gamew = new QWidget();
 
 	// vertical layouts
@@ -171,6 +157,36 @@ UserWindow::show_games()
 	lay->addLayout(accurcat);
 	lay->addLayout(reflexcat);
 
+	
+
+	QDir *cur = new QDir(QDir::currentPath()+"/games/");
+
+	foreach (QString filename, cur->entryList(QStringList("*.so"), QDir::Files)) {
+		QPluginLoader loader(cur->absoluteFilePath(filename));
+		QObject *plugin = loader.instance();
+		if(plugin) {
+			GameInterface *test = qobject_cast<GameInterface *>(plugin);
+			if(test) {
+				qDebug()<<"Successfully loaded game : " + filename;
+			        QString category = test->plugin_info().at(0);
+				QListWidgetItem *entry = new QListWidgetItem();
+				entry->setText(test->plugin_info().at(1));
+				entry->setToolTip(test->plugin_info().at(2));				
+				if(category == "endurance") {
+				      	end->addItem(entry);
+				} else if (category == "speed") {
+					spe->addItem(entry);
+				} else if (category == "accuracy") {
+					acc->addItem(entry);
+				} else if (category == "reflex") {
+					ref->addItem(entry);
+				} else {
+					qDebug()<<"Unknown category";
+				}
+			}
+		}
+		
+	}
 	gamew->show();
 }
 
