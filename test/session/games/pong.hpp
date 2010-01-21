@@ -13,11 +13,12 @@ Q_OBJECT
 Q_INTERFACES(GameInterface)
 
 public:
-	QString plugin_info();
+	QStringList plugin_info();
 	Pong();
 protected:
 	void keyPressEvent(QKeyEvent *e);
 private:
+	QStringList *gameinfo;
 	QGraphicsRectItem *p1, *p2;
 	QGraphicsEllipseItem *ball;
 	int score1, score2;

@@ -12,7 +12,7 @@
 #include <QDir>
 #include <QInputDialog>
 #include <QPluginLoader>
-
+#include <QListWidget>
 /* TODO : cleanup headers */
 
 #include <QGraphicsItem>
@@ -124,15 +124,59 @@ UserWindow::show_games()
 		if(plugin) {
 			GameInterface *test = qobject_cast<GameInterface *>(plugin);
 			if(test) {
-				qDebug()<<"Successfully loaded plugin.";
-				qDebug()<< test->plugin_info();	
+				qDebug()<<"Successfully loaded game : " + filename;
+				QStringList str = test->plugin_info();
+				for(int i=0; i<str.size(); ++i) {
+					qDebug()<<str.at(i);
+				}
 			}
 		}
 		
 	}
+	QWidget *gamew = new QWidget();
+
+	// vertical layouts
+	QVBoxLayout *endcat = new QVBoxLayout();
+	QVBoxLayout *specat = new QVBoxLayout();
+	QVBoxLayout *accurcat = new QVBoxLayout();
+	QVBoxLayout *reflexcat = new QVBoxLayout();
+	
+	// labels
+	QLabel *endurance = new QLabel(tr("Endurance"));
+	QLabel *speed = new QLabel(tr("Speed"));
+	QLabel *accuracy = new QLabel(tr("Accuracy"));
+	QLabel *reflex = new QLabel(tr("Reflex"));
+
+	// lists
+	QListWidget *end = new QListWidget();
+	QListWidget *spe = new QListWidget();
+	QListWidget *acc = new QListWidget();
+	QListWidget *ref = new QListWidget();
+
+	endcat->addWidget(endurance);
+	endcat->addWidget(end);
+
+	specat->addWidget(speed);
+	specat->addWidget(spe);
+
+	accurcat->addWidget(accuracy);
+	accurcat->addWidget(acc);
+
+	reflexcat->addWidget(reflex);
+	reflexcat->addWidget(ref);
+
+	QHBoxLayout *lay = new QHBoxLayout(gamew);
+	lay->addLayout(endcat);
+	lay->addLayout(specat);
+	lay->addLayout(accurcat);
+	lay->addLayout(reflexcat);
+
+	gamew->show();
 }
+
+
 /*
-	cur->setFilter(QDir::Files);
+cur->setFilter(QDir::Files);
 	bool ok;
 	QString gamename = QInputDialog::getItem(0, 
 						 tr("Game selection"),
