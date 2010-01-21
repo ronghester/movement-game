@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QKeyEvent>
+#include <QGraphicsSceneMouseEvent>
 
 #include "pong.hpp"
 
@@ -27,21 +28,25 @@ Pong::Pong()
 	this->ball->setPos((WIDTH-PADDLE)/2, (HEIGHT-PADDLE)/2);
 	this->ball->setBrush(QBrush(Qt::black));
 	
+	this->setFocusItem(p1);
+
 	this->dx = -1;
 	this->dy = -1;
 
 	QTimeLine *timer = new QTimeLine(5000);
 	timer->setFrameRange(0, 100);
+	
 	this->addItem(ball);
 	this->addItem(p1);
 	this->addItem(p2);
+
 	timer->setLoopCount(10000);
 	timer->start();
 	connect(timer,
 		SIGNAL(frameChanged(int)),
 		this,
 		SLOT(value_changed(int)));
-}
+	}
 
 void
 Pong::value_changed(int)
@@ -53,7 +58,7 @@ Pong::value_changed(int)
 		} else if (ball->y()<=0 || ball->y()>=HEIGHT-PADDLE) {
 			dy = -dy;
 		}
-		this->ball->moveBy(PADDLE*dx*0.005, PADDLE*dy*0.005);
+		this->ball->moveBy(PADDLE*dx*0.1, PADDLE*dy*0.1);
 	}
 }
 
@@ -70,10 +75,10 @@ Pong::keyPressEvent(QKeyEvent *e)
 		x = 1;
 		break;
 	case (Qt::Key_A):
-		x2 = -1;
+		x2 = 1;
 		break;
 	case (Qt::Key_Q):
-		x2 = 1;
+		x2 = -1;
 		break;
 	default:
 		x = 0;
@@ -81,9 +86,49 @@ Pong::keyPressEvent(QKeyEvent *e)
 		break;
 	}
 
-	/*	if(p1->y() >= PADDLE*2 && */
-	/*	p1->y() + PADDLE*3 <= HEIGHT) */
-	/* TODO : edge detection */
-	this->p1->moveBy(0, PADDLE*x);
-	this->p2->moveBy(0, PADDLE*x2);
+	// TODO : find a smarter way
+	if (p1->pos().y() < 0) { 
+		this->p1->setPos(PADDLE, 0);
+	} else if (p1->pos().y()+PADDLE*3 > HEIGHT) {
+		this->p1->setPos(PADDLE, HEIGHT-PADDLE*3);
+	} else {
+		this->p1->moveBy(0, PADDLE*x);
+	}
+
+	if (p2->pos().y() < 0) { 
+		this->p2->setPos(WIDTH-PADDLE*2, 0);
+	} else if (p2->pos().y()+PADDLE*3 > HEIGHT) {
+		this->p2->setPos(WIDTH-PADDLE*2, HEIGHT-PADDLE*3);
+	} else {
+		this->p2->moveBy(0, PADDLE*x2);
+	}
+
+}
+
+void
+Pong::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
+{
+	mouseLogger();
+	int x = 1;
+	if(e->scenePos().y() <= p1->scenePos().y()) {
+		x = -1;
+	}
+	this->p1->moveBy(0, PADDLE*0.1*x);
+}
+
+void 
+Pong::mouseLogger(QGraphicsSceneMouseEvent *e)
+{
+	static int xmax = 0;
+	static int xmin = 0;
+	static int ymax = 0;
+	static int ymin = 0;
+
+	int x = e->scenePos().x();
+	int y = e->scenePos().y();
+
+	if (x < xmin) xmin = x;
+	if (x > xmax) xmax = x;
+	if (y < ymin) ymin = y;
+	if (y > ymax) ymax = y;
 }
