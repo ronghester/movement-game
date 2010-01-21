@@ -20,7 +20,7 @@
     </message>
     <message>
         <source>Select profile</source>
-        <translation>Sélectionner un profile</translation>
+        <translation>Sélectionner un profil</translation>
     </message>
     <message>
         <source>Quit</source>

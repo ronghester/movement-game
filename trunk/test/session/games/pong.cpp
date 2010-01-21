@@ -9,6 +9,12 @@
 
 Pong::Pong()
 {
+	gameinfo = new QStringList(QStringList()
+				   << "endurance"						      
+				   << "Pong"
+				   << "The famous Pong game"
+				   << "Stéphane Maniaci"
+				   << "0.1");
 	this->setSceneRect(0, 0, WIDTH, HEIGHT);
 	this->p1 = new QGraphicsRectItem(PADDLE,
 					 HEIGHT/2,
@@ -31,10 +37,10 @@ Pong::keyPressEvent(QKeyEvent *e)
 	}
 }
 
-QString
+QStringList
 Pong::plugin_info() 
 {
-	return "This is pong !";
+	return *gameinfo;
 }
 
 
