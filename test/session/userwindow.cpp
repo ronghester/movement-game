@@ -11,10 +11,12 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QInputDialog>
+#include <QPluginLoader>
 
 /* TODO : cleanup headers */
 
 #include <QGraphicsItem>
+#include "gameinterface.hpp"
 
 UserWindow::UserWindow(User *usr, QWidget *parent)
 	:QWidget(parent)
@@ -114,9 +116,22 @@ void
 UserWindow::show_games()
 {
 	this->hide();
-	
 	QDir *cur = new QDir(QDir::currentPath()+"/games/");
 
+	foreach (QString filename, cur->entryList(QDir::Files)) {
+		QPluginLoader loader(cur->absoluteFilePath(filename));
+		QObject *plugin = loader.instance();
+		if(plugin) {
+			GameInterface *test = qobject_cast<GameInterface *>(plugin);
+			if(test) {
+				qDebug()<<"Successfully loaded plugin.";
+				qDebug()<< test->plugin_info();
+			}
+		}
+	}
+
+}
+/*
 	cur->setFilter(QDir::Files);
 	bool ok;
 	QString gamename = QInputDialog::getItem(0, 
@@ -132,5 +147,4 @@ UserWindow::show_games()
 		emit(send_game(g));
 	} else {
 		this->show();
-	}
-}
+		}*/

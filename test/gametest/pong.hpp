@@ -4,14 +4,17 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QTimeLine>
+#include <QMouseEvent>
 
 class Pong : public QGraphicsScene
 {
 Q_OBJECT
 public:
 	Pong();
+	void mouseLogger(QGraphicsSceneMouseEvent *e);
 protected:
 	void keyPressEvent(QKeyEvent *e);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
 public slots:
 	void value_changed(int);
 private:
