@@ -118,18 +118,18 @@ UserWindow::show_games()
 	this->hide();
 	QDir *cur = new QDir(QDir::currentPath()+"/games/");
 
-	foreach (QString filename, cur->entryList(QDir::Files)) {
+	foreach (QString filename, cur->entryList(QStringList("*.so"), QDir::Files)) {
 		QPluginLoader loader(cur->absoluteFilePath(filename));
 		QObject *plugin = loader.instance();
 		if(plugin) {
 			GameInterface *test = qobject_cast<GameInterface *>(plugin);
 			if(test) {
 				qDebug()<<"Successfully loaded plugin.";
-				qDebug()<< test->plugin_info();
+				qDebug()<< test->plugin_info();	
 			}
 		}
+		
 	}
-
 }
 /*
 	cur->setFilter(QDir::Files);
